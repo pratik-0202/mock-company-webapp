@@ -1,0 +1,28 @@
+name: Jenkins Simulation CI
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Grant execute permissions for Gradle
+        run: chmod +x gradlew
+
+      - name: Build Application
+        run: ./gradlew assemble
+
+      - name: Run Tests
+        run: ./gradlew test
